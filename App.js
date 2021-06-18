@@ -7,20 +7,37 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import type {Node} from 'react';
 import {
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
-  View,
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 
-const App: () => Node = () => {
-  [searchText, setSearchText] = useState('');
+const URL = 'https://mobile-staging.gametime.co/v1/search?q=';
+
+function App() {
+  const [searchText, setSearchText] = useState('');
+  const [eventData, setEventData] = useState([]);
+  const [performerData, setPerformerData] = useState([]);
+  const [venueData, setVenueData] = useState([]);
+
+  useEffect(() =>
+    {
+      if (searchText.length < 3) return;
+      const uri = URL + searchText;
+      fetch(uri)
+          .then((response) => response.json())
+          .then((json) =>
+                {
+                  setEventData(json.events.slice(0, 3));
+                  setPerformerData(json.performers.slice(0, 3));
+                  setVenueData(json.venues.slice(0, 3));
+                })
+          .catch((error) => console.error(`fetch error ${error}: ${uri}`))
+          .finally(() => {});
+    }, [ searchText ]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -31,7 +48,14 @@ const App: () => Node = () => {
         round={true}
         containerStyle={{backgroundColor:'transparent'}}
       />
-      <Text>text</Text>
+      <ScrollView style={{ flex: 1}}>
+        <Text style={{color:'white'}}>EVENTS</Text>
+        <Text style={{color:'white'}}>{JSON.stringify(eventData,null,2)}</Text>
+        <Text style={{color:'white'}}>PERFORMERS</Text>
+        <Text style={{color:'white'}}>{JSON.stringify(performerData,null,2)}</Text>
+        <Text style={{color:'white'}}>VENUES</Text>
+        <Text style={{color:'white'}}>{JSON.stringify(venueData,null,2)}</Text>
+      </ScrollView>
     </SafeAreaView>
   );
 };
