@@ -28,8 +28,20 @@ export function Section(props) {
 function renderEvents(data) {
   return (
     data.map((item, index) => {
+      const date = new Date(item.event.datetime_local);
+      const dateStr = date.toLocaleDateString('en-us').split('/');
+      const displayDate = dateStr[0] + '/' + dateStr[1];
+      const day = date.toLocaleString('en-us', {weekday:'short'}).split(' ')[0];
       return (
-        <Text style={{ color: 'white' }}>{item.event.name}</Text>
+        <View style={styles.dataContainer} key={index}>
+          <View style={{width:60, height:60, alignItems:'center', justifyContent:'center'}}>
+            <Text style={{color:'white', fontSize:20}}>{displayDate}</Text>
+            <Text style={{color:'gray'}}>{day}</Text>
+          </View>
+          <View style={{marginLeft: 20}} >
+            <Text style={{ color: 'white', fontWeight: 'bold' }}>{item.event.name}</Text>
+          </View>
+        </View>
       );
     })
   );
