@@ -14,6 +14,7 @@ import {
   Text,
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
+import {Section} from './Section';
 
 const URL = 'https://mobile-staging.gametime.co/v1/search?q=';
 
@@ -49,12 +50,9 @@ function App() {
         containerStyle={{backgroundColor:'transparent'}}
       />
       <ScrollView style={{ flex: 1}}>
-        <Text style={{color:'white'}}>EVENTS</Text>
-        <Text style={{color:'white'}}>{JSON.stringify(eventData,null,2)}</Text>
-        <Text style={{color:'white'}}>PERFORMERS</Text>
-        <Text style={{color:'white'}}>{JSON.stringify(performerData,null,2)}</Text>
-        <Text style={{color:'white'}}>VENUES</Text>
-        <Text style={{color:'white'}}>{JSON.stringify(venueData,null,2)}</Text>
+        <Section title='Events' data={eventData} />
+        <Section title='Performers' data={performerData} />
+        <Section title='Venues' data={venueData} />
       </ScrollView>
     </SafeAreaView>
   );
