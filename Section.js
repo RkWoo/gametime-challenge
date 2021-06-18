@@ -39,7 +39,16 @@ function renderPerformers(data) {
   return (
     data.map((item, index) => {
       return (
-        <Text style={{ color: 'white' }}>{item.name}</Text>
+        <View style={styles.dataContainer} key={index}>
+          <Image
+            source={{ uri: item.hero_image_url }}
+            resizeMode='cover'
+            style={styles.image} />
+          <View style={{ marginLeft: 20 }}>
+            <Text style={{ color: 'white', fontWeight: 'bold' }}>{item.name}</Text>
+            <Text style={{ color: 'white' }}>{item.category.toUpperCase()}</Text>
+          </View>
+        </View>
       );
     })
   );
@@ -49,18 +58,39 @@ function renderVenues(data) {
   return (
     data.map((item, index) => {
       return (
-        <Text style={{ color: 'white' }}>{item.name}</Text>
+        <View style={styles.dataContainer} key={index}>
+          <Image
+            source={{ uri: item.image_url }}
+            resizeMode='cover'
+            style={styles.image} />
+          <View style={{ marginLeft: 20 }}>
+            <Text style={{ color: 'white', fontWeight: 'bold' }}>{item.name}</Text>
+            <Text style={{ color: 'white' }}>{`${item.city}, ${item.state}`}</Text>
+          </View>
+        </View>
       );
     })
   );
 }
 
 const styles = StyleSheet.create({
+  dataContainer: {
+    flexDirection: 'row',
+    margin: 10,
+    backgroundColor: '#101010',
+    alignItems: 'center',
+  },
   sectionTitle: {
     width: '100%',
     backgroundColor: '#202020',
     fontWeight: 'bold',
     color: 'lightgray',
     padding: 20,
+  },
+  image: {
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    overflow: 'hidden',
   },
 });
